@@ -1,18 +1,20 @@
+import { useCounter } from "../hooks/useCounter";
 import { useFetch } from "../hooks/useFetch"
 
 export const MultipleCustomHooks = () => {
-    const idpoke = 1;
+    const { increment, counter } = useCounter();
 
-    const { data, isLoading, hasError } = useFetch('https://pokeapi.co/api/v2/pokemon/'+idpoke);
+    const { data, isLoading, hasError } = useFetch('https://pokeapi.co/api/v2/pokemon/'+counter);
 
    const {name, id} = data;
 
-    console.log({data})
+    //console.log({data})
 
-   /*  const handleNext = () => {
-        idpoke++;
-        return useFetch('https://pokeapi.co/api/v2/pokemon/'+idpoke)
-    } */
+    const handleNext = () => {
+        
+        increment();
+        console.log(counter);
+    }
 
   return (
     <>
@@ -30,7 +32,7 @@ export const MultipleCustomHooks = () => {
                 </blockquote>
                 )
         }
-        <button /* onClick={handleNext} */ className="btn btn-primary">Next Pokemon</button>
+        <button onClick={handleNext} className="btn btn-primary">Next Pokemon</button>
         
         
     </>
