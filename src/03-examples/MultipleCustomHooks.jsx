@@ -1,19 +1,23 @@
-import { useCounter } from "../hooks/useCounter";
-import { useFetch } from "../hooks/useFetch"
+import { useCounter, useFetch } from "../hooks";
 
 export const MultipleCustomHooks = () => {
-    const { increment, counter } = useCounter();
+    const { increment, counter, decrement } = useCounter();
 
     const { data, isLoading, hasError } = useFetch('https://pokeapi.co/api/v2/pokemon/'+counter);
 
-   const {name, id} = data;
+   const {name, id, sprites} = data;
 
     //console.log({data})
 
-    const handleNext = () => {
+    const handleSig = () => {
         
         increment();
-        console.log(counter);
+        //console.log(data);
+    }
+    const handleAnt = () => {
+        
+        decrement();
+        
     }
 
   return (
@@ -26,13 +30,25 @@ export const MultipleCustomHooks = () => {
                 <div className="alert alert-info text-center">Loading...</div>
                 )
             : (
+                
                 <blockquote className="blockquote text-end">
                     <p className="mb-1">{name}</p>
                     <footer className="blockquote-footer">{id}</footer>
                 </blockquote>
                 )
+        }{
+            sprites 
+            ?(
+                <img src={sprites.front_default}/>
+            )
+            :(
+                <img src={sprites}/>
+            )
         }
-        <button onClick={handleNext} className="btn btn-primary">Next Pokemon</button>
+        
+        
+        <button onClick={handleAnt} className="btn btn-primary" disabled={counter<2}>Anterior Pokemon</button>
+        <button onClick={handleSig} className="btn btn-primary">Siguiente Pokemon</button>
         
         
     </>
