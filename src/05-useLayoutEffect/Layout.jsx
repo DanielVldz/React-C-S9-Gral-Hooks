@@ -1,8 +1,8 @@
 import { useCounter, useFetch } from "../hooks";
-import { LoadingQuote, Quote } from "./";
+import { LoadingQuote, Quote } from "../03-examples";
 
 
-export const MultipleCustomHooks = () => {
+export const Layout = () => {
     const { increment, counter, decrement } = useCounter();
 
     const { data, isLoading, hasError } = useFetch('https://pokeapi.co/api/v2/pokemon/'+counter);
