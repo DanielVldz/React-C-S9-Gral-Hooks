@@ -1,26 +1,52 @@
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import { TodoAdd } from "./TodoAdd";
 import { TodoList } from "./TodoList";
 import { todoReducer } from "./todoReducer"
 
-export const TodoApp = () => {
-    const initialState = [
-    {
-        id: new Date().getTime(),
-        description: 'Recolectar la piedra del sal',
-        done: false,
-    },
-    {
-        id: new Date().getTime() + 100,
-        description: 'Recolectar la materia oscura',
-        done: false,
-    }
+
+const initialState = [
+    // {
+    //     id: new Date().getTime(),
+    //     description: 'Recolectar la piedra del sal',
+    //     done: false,
+    // },
+    // {
+    //     id: new Date().getTime() + 100,
+    //     description: 'Recolectar la materia oscura',
+    //     done: false,
+    // }
 ]
-    const [todos, dispatch] = useReducer(todoReducer ,initialState);
+const init = () => {
+    return JSON.parse(localStorage.getItem('todos')) || [];
+}
+
+export const TodoApp = () => {
+    
+    const [todos, dispatch] = useReducer(todoReducer ,initialState, init);
+
+    useEffect(() => {  
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos])
+    
 
     const handleNewTodo = (todo) => {
-        console.log({todo});
-
+        const action = {
+            type: '[TODO] Add Todo',
+            payload: todo
+        }
+        dispatch(action)
+    }
+    const handleDeleteTodo = (id) => {
+        dispatch({
+            type: '[TODO] Remove Todo',
+            payload: id
+        })
+    }
+    const handleToggleTodo = (id) => {
+         dispatch({
+             type: '[TODO] Toggle Todo',
+             payload: id
+         })
     }
   return (
     <>
@@ -29,7 +55,7 @@ export const TodoApp = () => {
         <div className="row">
             <div className="col-7">
                 {/* TodoList */}
-                <TodoList todos={todos}/>
+                <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} onToggleTodo={handleToggleTodo}/>
                  {/* TodoList */}
             </div>
             <div className="col-5">
