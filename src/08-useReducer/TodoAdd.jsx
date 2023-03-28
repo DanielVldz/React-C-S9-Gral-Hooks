@@ -28,6 +28,7 @@ export const TodoAdd = ({onNewTodo}) => {
                         onChange={onInputChange}
                     />
                     <button type="submit" className="btn btn-outline-primary mt-1">Agregar</button>
+                    <button onClick={onResetForm} className="btn btn-outline-secondary mt-1">Limpiar</button>
                 </form>
   )
 }
